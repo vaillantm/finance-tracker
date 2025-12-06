@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Your Money</title>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        :root {
+            --primary-green: #1abc9c;
+        }
+
+        .sign-in-button {
+            background-color: var(--primary-green);
+        }
+        .sign-in-button:hover {
+            background-color: #16a085;
+        }
+
+        body {
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        /* Remove borders, shadows, outlines globally */
+        * {
+            box-shadow: none !important;
+            border: none !important;
+            outline: none !important;
+        }
+    </style>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-green": "#1abc9c",
+                    },
+                    fontFamily: {
+                        sans: ["Inter", "sans-serif"],
+                    },
+                },
+            },
+        };
+    </script>
+</head>
+
+<body class="font-sans bg-white flex items-center justify-center min-h-screen">
+
+    <!-- Main Container -->
+    <div id="app-container" class="flex max-w-5xl bg-white w-full mx-4 overflow-hidden">
+
+        <!-- LEFT PANEL -->
+        <div class="hidden lg:flex flex-col justify-center p-12 lg:w-1/2 bg-white">
+
+            <h1 class="text-4xl font-extrabold text-gray-800 mb-4">
+                Manage Your Money
+            </h1>
+
+            <p class="text-gray-600 mb-8 leading-relaxed">
+                Track expenses, visualize spending patterns, and take control of your finances with our intuitive personal finance tracker.
+            </p>
+
+            <!-- Updated green circle ticks with white check -->
+            <ul class="space-y-4 text-gray-700">
+                <li class="flex items-start">
+                    <span class="flex items-center justify-center w-6 h-6 rounded-full bg-primary-green text-white text-sm mr-3">
+                        <i class="fa-solid fa-check"></i>
+                    </span>
+                    Real-time expense tracking
+                </li>
+
+                <li class="flex items-start">
+                    <span class="flex items-center justify-center w-6 h-6 rounded-full bg-primary-green text-white text-sm mr-3">
+                        <i class="fa-solid fa-check"></i>
+                    </span>
+                    Smart analytics & insights
+                </li>
+
+                <li class="flex items-start">
+                    <span class="flex items-center justify-center w-6 h-6 rounded-full bg-primary-green text-white text-sm mr-3">
+                        <i class="fa-solid fa-check"></i>
+                    </span>
+                    Export & backup your data
+                </li>
+            </ul>
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div class="py-8 px-8 sm:py-10 sm:px-12 w-full lg:w-1/2 flex flex-col justify-center">
+
+            <!-- Auth Tabs (rounded) -->
+            <div class="flex bg-gray-100 p-1 mb-8 rounded-xl" id="auth-tabs">
+                <button 
+                    id="tab-signin" 
+                    data-form="signin"
+                    class="tab-button flex-1 py-2 text-sm sm:text-base font-semibold text-gray-800 bg-white rounded-lg">
+                    Sign in
+                </button>
+                <button 
+                    id="tab-create"
+                    data-form="create"
+                    class="tab-button flex-1 py-2 text-sm sm:text-base font-medium text-gray-500 rounded-lg">
+                    Create Account
+                </button>
+            </div>
+
+            <!-- FORM -->
+            <form id="auth-form" class="space-y-4"></form>
+
+            <!-- Divider -->
+            <div class="flex items-center my-4">
+                <div class="flex-grow"></div>
+                <span class="flex-shrink mx-4 text-gray-400 text-sm">Or continue with</span>
+                <div class="flex-grow"></div>
+            </div>
+
+            <!-- Google Button (hover + rounded) -->
+            <button class="google-login-button w-full flex items-center justify-center p-3 text-gray-600 font-semibold rounded-lg hover:bg-gray-100 transition">
+                <i class="fab fa-google w-5 h-5 mr-3 text-gray-600"></i>
+                Google
+            </button>
+
+        </div>
+
+    </div>
+
+    <script>
+        let currentForm = "signin";
+        const formElement = document.getElementById("auth-form");
+
+        // Inline error renderer
+        function inlineError(message) {
+            return `
+                <div class="mt-2 p-3 rounded-lg bg-red-100/60 text-red-700 text-sm">
+                    ${message}
+                </div>
+            `;
+        }
+
+        // Input generator
+        const inputTemplate = (id, label, type, placeholder, iconName = null, showError = false, errorText = "") => `
+            <div class="space-y-2">
+                <label for="${id}" class="block text-sm font-medium text-gray-700">${label}</label>
+                <div class="relative flex items-center">
+                    ${iconName ? `<i class="material-icons absolute left-3 text-gray-400 text-xl">${iconName}</i>` : ""}
+                    <input 
+                        type="${type}"
+                        id="${id}"
+                        name="${id}"
+                        placeholder="${placeholder}"
+                        required
+                        class="w-full p-3 ${iconName ? "pl-10" : ""} rounded-lg"
+                    >
+                </div>
+                ${showError ? inlineError(errorText) : ""}
+            </div>
+        `;
+
+        function renderForm(passwordError = "") {
+            let html = "";
+            let submitText = "";
+
+            if (currentForm === "signin") {
+                submitText = "Sign In";
+
+                html += inputTemplate("email", "Email", "email", "you@example.com", "email");
+
+                html += inputTemplate(
+                    "password",
+                    "Password",
+                    "password",
+                    "••••••••",
+                    "lock",
+                    passwordError !== "",
+                    passwordError
+                );
+
+            } else {
+                submitText = "Create Account";
+
+                html += inputTemplate("name", "Full Name", "text", "John Doe", "person");
+                html += inputTemplate("email-create", "Email", "email", "you@example.com", "email");
+
+                html += inputTemplate(
+                    "password-create",
+                    "Password",
+                    "password",
+                    "••••••••",
+                    "lock",
+                    passwordError !== "",
+                    passwordError || "Password must be at least 8 characters long"
+                );
+            }
+
+            html += `
+                <button type="submit"
+                    class="sign-in-button w-full p-3 mt-6 text-white font-semibold transition rounded-lg">
+                    ${submitText}
+                </button>
+            `;
+
+            formElement.innerHTML = html;
+        }
+
+        // -------------------------------
+        // Tab switching
+        // -------------------------------
+        document.querySelectorAll(".tab-button").forEach(btn => {
+            btn.addEventListener("click", e => {
+                currentForm = e.target.dataset.form;
+
+                document.querySelectorAll(".tab-button").forEach(b => {
+                    const active = b.dataset.form === currentForm;
+                    b.classList.toggle("bg-white", active);
+                    b.classList.toggle("text-gray-800", active);
+                    b.classList.toggle("text-gray-500", !active);
+                });
+
+                renderForm();
+            });
+        });
+
+        // ---------------------------------
+// Form Submission Logic
+// ---------------------------------
+formElement.addEventListener("submit", e => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData.entries());
+
+    if (currentForm === "signin") {
+        if (!data.password || data.password.length < 1) {
+            renderForm("Password is required.");
+            return;
+        }
+
+        if (data.password.length < 8) {
+            renderForm("Password must be at least 8 characters long.");
+            return;
+        }
+
+        localStorage.setItem("userEmail", data.email);
+        window.location.href = "dashboard.html";
+        return;
+    }
+
+    if (currentForm === "create") {
+        if (!data["password-create"] || data["password-create"].length < 8) {
+            renderForm("Password must be at least 8 characters long.");
+            return;
+        }
+
+        localStorage.setItem("userEmail", data["email-create"]);
+        window.location.href = "dashboard.html";
+    }
+});
+
+        document.addEventListener("DOMContentLoaded", () => renderForm());
+    </script>
+
+</body>
+</html>

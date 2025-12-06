@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transactions - Finance Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet" />
+<style>
+    .mui {
+        font-family: "Material Symbols Sharp";
+        font-weight: normal;
+        font-style: normal;
+        font-size: 22px;
+        line-height: 1;
+        display: inline-block;
+    }
+</style>
+
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <!-- Sidebar -->
+<aside id="sidebar" class="w-64 flex flex-col justify-between bg-white border-r border-gray-200 p-6 shadow-xl shadow-gray-50/50">
+    <div>
+        <div class="mb-10">
+            <h1 class="text-2xl font-bold text-emerald-600">Finance</h1>
+            <p class="text-xs text-gray-500">Personal Tracker</p>
+        </div>
+
+        <nav id="nav-links" class="space-y-2">
+            <a href="dashboard.html" class="nav-link nav-item flex items-center p-3 rounded-xl">
+                <span class="mui mr-3">dashboard</span>
+                Dashboard
+            </a>
+
+            <a href="transactions.html" class="nav-link nav-item flex items-center p-3 rounded-xl">
+                <span class="mui mr-3">receipt_long</span>
+                Transactions
+            </a>
+
+            <a href="categories.html" class="nav-link nav-item flex items-center p-3 rounded-xl">
+                <span class="mui mr-3">category</span>
+                Categories
+            </a>
+
+            <a href="analytics.html" class="nav-link nav-item flex items-center p-3 rounded-xl">
+                <span class="mui mr-3">analytics</span>
+                Analytics
+            </a>
+
+            <a href="settings.html" class="nav-link nav-item flex items-center p-3 rounded-xl">
+                <span class="mui mr-3">settings</span>
+                Settings
+            </a>
+        </nav>
+    </div>
+
+    <div class="pb-4">
+        <a href="#" class="flex items-center text-gray-500 hover:text-red-500 transition duration-150 p-3 rounded-xl">
+            <span class="mui mr-3">logout</span>
+            Sign Out
+        </a>
+    </div>
+</aside>
+
+
+
+
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col overflow-y-auto">
+        
+        <!-- Header -->
+        <header id="header" class="flex justify-end items-center bg-white p-6 border-b border-gray-200">
+            <div class="flex items-center space-x-4">
+                <div class="text-right">
+                    <p class="text-sm font-medium text-gray-900">John Doe</p>
+                    <p class="text-xs text-gray-500">john@example.com</p>
+                </div>
+                <div class="stat-icon bg-gray-200 text-gray-700">
+                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main id="main-content" class="flex-1">
+            <div class="p-8 space-y-8">
+                <!-- Transactions Header and Buttons -->
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-900">Transactions</h2>
+                        <p class="text-sm text-gray-500">View and manage all your financial transactions</p>
+                    </div>
+                    <div class="flex space-x-4">
+                        <button class="px-4 py-2 text-gray-700 border border-gray-300 bg-white rounded-xl shadow-sm hover:bg-gray-50 transition duration-150">
+                            Export CSV
+                        </button>
+                        <button class="flex items-center px-4 py-2 text-white bg-emerald-600 rounded-xl shadow-md hover:bg-emerald-700 transition duration-150">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m-8-8h16"></path></svg>
+                            <span class="ml-1 font-medium">Add Transaction</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Transaction Stat Cards Row -->
+                <div id="transaction-stats" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                    <!-- Total Income -->
+                    <div class="bg-white p-6 rounded-xl shadow-lg flex justify-between items-start border-l-4 border-green-500">
+                        <div>
+                            <p class="text-sm text-gray-500 mb-1">Total Income</p>
+                            <p class="text-2xl font-bold text-green-600">$6,200.00</p>
+                        </div>
+                        <span class="text-xs px-2 py-0.5 bg-green-100 text-green-700 rounded-full font-medium">+2</span>
+                    </div>
+
+                    <!-- Total Expense -->
+                    <div class="bg-white p-6 rounded-xl shadow-lg flex justify-between items-start border-l-4 border-red-500">
+                        <div>
+                            <p class="text-sm text-gray-500 mb-1">Total Expense</p>
+                            <p class="text-2xl font-bold text-red-600">$154.81</p>
+                        </div>
+                        <span class="text-xs px-2 py-0.5 bg-red-100 text-red-700 rounded-full font-medium">4</span>
+                    </div>
+
+                    <!-- Net Balance -->
+                    <div class="bg-white p-6 rounded-xl shadow-lg flex justify-between items-start border-l-4 border-blue-500">
+                        <div>
+                            <p class="text-sm text-gray-500 mb-1">Net Balance</p>
+                            <p class="text-2xl font-bold text-blue-600">$6,045.19</p>
+                        </div>
+                        <span class="text-xs px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full font-medium">6 total</span>
+                    </div>
+                </div>
+
+                <!-- Filters Section -->
+                <div class="bg-white p-6 rounded-xl shadow-lg space-y-4">
+                    <h3 class="flex items-center text-lg font-semibold text-gray-800">
+                        <svg class="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path></svg>
+                        Filters
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                        <div class="col-span-1 md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Search</label>
+                            <div class="relative">
+                                <input type="text" placeholder="Search transactions..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-xl focus:ring-emerald-500 focus:border-emerald-500">
+                                <svg class="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Type</label>
+                            <select class="w-full pl-3 pr-8 py-2 border border-gray-300 rounded-xl focus:ring-emerald-500 focus:border-emerald-500 appearance-none bg-white">
+                                <option>All Types</option>
+                                <option>Income</option>
+                                <option>Expense</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                            <select class="w-full pl-3 pr-8 py-2 border border-gray-300 rounded-xl focus:ring-emerald-500 focus:border-emerald-500 appearance-none bg-white">
+                                <option>All Categories</option>
+                                <option>Salary</option>
+                                <option>Food</option>
+                                <option>Utilities</option>
+                            </select>
+                        </div>
+                        <button class="w-full px-4 py-2 text-gray-700 border border-gray-300 bg-gray-100 rounded-xl hover:bg-gray-200 transition duration-150">
+                            Clear Filters
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Transaction List -->
+                <div class="bg-white p-6 rounded-xl shadow-lg space-y-4">
+                    <!-- Transaction Item: Monthly Salary -->
+                    <div class="flex justify-between items-center py-3 border-b border-gray-100 last:border-b-0">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-2 h-2 rounded-full bg-green-500 flex-shrink-0"></div>
+                            <div>
+                                <p class="font-medium text-gray-900">Monthly Salary</p>
+                                <div class="flex items-center text-xs text-gray-500 mt-0.5">
+                                    <span class="px-2 py-0.5 bg-green-500/10 text-green-700 rounded font-medium mr-2">Salary</span>
+                                    <span>03/12/2025</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <span class="text-lg font-semibold text-green-600 mr-4">+$5,000.00</span>
+                            <button class="text-gray-400 hover:text-blue-500 transition duration-150">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+                            </button>
+                            <button class="text-gray-400 hover:text-red-500 transition duration-150">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Transaction Item: Coffee Shop -->
+                    <div class="flex justify-between items-center py-3 border-b border-gray-100 last:border-b-0">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-2 h-2 rounded-full bg-red-500 flex-shrink-0"></div>
+                            <div>
+                                <p class="font-medium text-gray-900">Coffee Shop</p>
+                                <div class="flex items-center text-xs text-gray-500 mt-0.5">
+                                    <span class="px-2 py-0.5 bg-red-500/10 text-red-700 rounded font-medium mr-2">Food</span>
+                                    <span>04/12/2025</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <span class="text-lg font-semibold text-red-600 mr-4">-$4.50</span>
+                            <button class="text-gray-400 hover:text-blue-500 transition duration-150">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+                            </button>
+                            <button class="text-gray-400 hover:text-red-500 transition duration-150">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Additional Transaction: Electricity Bill -->
+                    <div class="flex justify-between items-center py-3 last:border-b-0">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-2 h-2 rounded-full bg-blue-500 flex-shrink-0"></div>
+                            <div>
+                                <p class="font-medium text-gray-900">Electricity Bill</p>
+                                <div class="flex items-center text-xs text-gray-500 mt-0.5">
+                                    <span class="px-2 py-0.5 bg-blue-500/10 text-blue-700 rounded font-medium mr-2">Utilities</span>
+                                    <span>04/12/2025</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <span class="text-lg font-semibold text-red-600 mr-4">-$98.00</span>
+                            <button class="text-gray-400 hover:text-blue-500 transition duration-150">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+                            </button>
+                            <button class="text-gray-400 hover:text-red-500 transition duration-150">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

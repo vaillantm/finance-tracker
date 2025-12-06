@@ -1,0 +1,139 @@
+/* Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f7f9fc;
+}
+
+/* Custom styles for the active navigation item */
+.nav-item-active {
+    background-color: #059669; /* emerald-600 */
+    color: white;
+    font-weight: 600;
+}
+
+.nav-item-active svg {
+    color: white;
+}
+
+.nav-item {
+    color: #555;
+    transition: all 0.15s ease-in-out;
+}
+
+.nav-item:hover {
+    color: #10b981; /* emerald-500 */
+}
+
+.stat-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+/* Custom chart styles for canvas */
+#balance-chart,
+#income-vs-expense-chart,
+#spending-by-category-chart {
+    width: 100%;
+    height: 300px;
+}
+
+#spending-by-category-chart {
+    height: 250px;
+    max-width: 400px;
+}
+
+/* Style for the active settings tab button */
+.settings-tab-active {
+    border-color: #10b981; /* emerald-500 */
+    color: #059669; /* emerald-600 */
+}
+
+.settings-tab {
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s ease-in-out;
+}
+
+/* SVG Icons adapted from Lucide Icons */
+.icon {
+    width: 20px;
+    height: 20px;
+    stroke-width: 2.5;
+    flex-shrink: 0;
+}
+
+/* --- Custom CSS for the toggle switch in Settings --- */
+.toggle-checkbox {
+    position: absolute;
+    left: 0;
+    transition: all 0.2s ease;
+}
+
+.toggle-checkbox:checked {
+    transform: translateX(100%);
+    border-color: #10b981;
+}
+
+.toggle-checkbox:checked + .toggle-label {
+    background-color: #10b981;
+}
+
+.toggle-label {
+    background-color: #ccc;
+}
+
+.toggle-checkbox {
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.relative.inline-block {
+    width: 44px;
+    height: 24px;
+}
+
+.toggle-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 9999px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.toggle-checkbox {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    border-radius: 9999px;
+    background-color: #fff;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease-in-out;
+    cursor: pointer;
+    z-index: 10;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.toggle-checkbox:checked {
+    transform: translateX(20px);
+}
+
+.toggle-label {
+    background-color: #e5e7eb;
+}
+
+.toggle-checkbox:checked + .toggle-label {
+    background-color: #10b981;
+}

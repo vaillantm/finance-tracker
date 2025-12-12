@@ -16,237 +16,309 @@
         line-height: 1;
         display: inline-block;
     }
-</style>
 
+    /* HAMBURGER VISIBILITY */
+    #hamburger {
+        display: none;
+    }
+
+    @media (max-width: 1024px) {
+        #hamburger { display: inline-flex; cursor: pointer; margin-right: auto; padding: 6px; }
+        #sidebar { position: fixed; top: 0; left: -260px; height: 100%; width: 260px; background: white; transition: left 0.3s ease; z-index: 50; }
+        #sidebar.open { left: 0; }
+        #overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 40; }
+        #overlay.show { display: block; }
+        #header { position: sticky; top: 0; z-index: 100; background: white; }
+    }
+
+    #transaction-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); justify-content: center; align-items: center; z-index: 100; }
+    #transaction-modal.show { display: flex; }
+    #edit-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); justify-content: center; align-items: center; z-index: 100; }
+    #edit-modal.show { display: flex; }
+    #delete-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); justify-content: center; align-items: center; z-index: 100; }
+    #delete-modal.show { display: flex; }
+</style>
 </head>
 <body class="flex h-screen overflow-hidden">
 
-    <!-- Sidebar -->
 <aside id="sidebar" class="w-64 flex flex-col justify-between bg-white border-r border-gray-200 p-6 shadow-xl shadow-gray-50/50">
     <div>
         <div class="mb-10">
             <h1 class="text-2xl font-bold text-emerald-600">Finance</h1>
             <p class="text-xs text-gray-500">Personal Tracker</p>
         </div>
-
         <nav id="nav-links" class="space-y-2">
             <a href="dashboard.html" class="nav-link nav-item flex items-center p-3 rounded-xl">
-                <span class="mui mr-3">dashboard</span>
-                Dashboard
+                <span class="mui mr-3">dashboard</span> Dashboard
             </a>
-
             <a href="transactions.html" class="nav-link nav-item flex items-center p-3 rounded-xl">
-                <span class="mui mr-3">receipt_long</span>
-                Transactions
+                <span class="mui mr-3">near_me</span> Transactions
             </a>
-
             <a href="categories.html" class="nav-link nav-item flex items-center p-3 rounded-xl">
-                <span class="mui mr-3">category</span>
-                Categories
+                <span class="mui mr-3">local_offer</span> Categories
             </a>
-
             <a href="analytics.html" class="nav-link nav-item flex items-center p-3 rounded-xl">
-                <span class="mui mr-3">analytics</span>
-                Analytics
+                <span class="mui mr-3">bar_chart</span> Analytics
             </a>
-
             <a href="settings.html" class="nav-link nav-item flex items-center p-3 rounded-xl">
-                <span class="mui mr-3">settings</span>
-                Settings
+                <span class="mui mr-3">settings</span> Settings
             </a>
         </nav>
     </div>
-
     <div class="pb-4">
-        <a href="#" class="flex items-center text-gray-500 hover:text-red-500 transition duration-150 p-3 rounded-xl">
-            <span class="mui mr-3">logout</span>
-            Sign Out
+        <a href="index.html" class="flex items-center text-gray-500 hover:text-red-500 transition duration-150 p-3 rounded-xl">
+            <span class="mui mr-3">logout</span> Sign Out
         </a>
     </div>
 </aside>
 
-
-
-
-    <!-- Main Content Area -->
-    <div class="flex-1 flex flex-col overflow-y-auto">
-        
-        <!-- Header -->
-        <header id="header" class="flex justify-end items-center bg-white p-6 border-b border-gray-200">
-            <div class="flex items-center space-x-4">
-                <div class="text-right">
-                    <p class="text-sm font-medium text-gray-900">John Doe</p>
-                    <p class="text-xs text-gray-500">john@example.com</p>
-                </div>
-                <div class="stat-icon bg-gray-200 text-gray-700">
-                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                </div>
+<div class="flex-1 flex flex-col overflow-y-auto">
+   <header id="header" class="flex justify-end items-center bg-white p-6 border-b border-gray-200 sticky top-0 z-50">
+      <div id="hamburger" class="lg:hidden"><span class="mui text-3xl">menu</span></div>
+        <div class="flex items-center space-x-4">
+            <div class="text-right">
+                <p class="text-sm font-medium text-gray-900" id="header-name">Loading...</p>
+                <p class="text-xs text-gray-500" id="header-email">Loading...</p>
             </div>
-        </header>
-
-        <!-- Main Content -->
-        <main id="main-content" class="flex-1">
-            <div class="p-8 space-y-8">
-                <!-- Transactions Header and Buttons -->
-                <div class="flex justify-between items-center mb-6">
-                    <div>
-                        <h2 class="text-3xl font-bold text-gray-900">Transactions</h2>
-                        <p class="text-sm text-gray-500">View and manage all your financial transactions</p>
-                    </div>
-                    <div class="flex space-x-4">
-                        <button class="px-4 py-2 text-gray-700 border border-gray-300 bg-white rounded-xl shadow-sm hover:bg-gray-50 transition duration-150">
-                            Export CSV
-                        </button>
-                        <button class="flex items-center px-4 py-2 text-white bg-emerald-600 rounded-xl shadow-md hover:bg-emerald-700 transition duration-150">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m-8-8h16"></path></svg>
-                            <span class="ml-1 font-medium">Add Transaction</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Transaction Stat Cards Row -->
-                <div id="transaction-stats" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                    <!-- Total Income -->
-                    <div class="bg-white p-6 rounded-xl shadow-lg flex justify-between items-start border-l-4 border-green-500">
-                        <div>
-                            <p class="text-sm text-gray-500 mb-1">Total Income</p>
-                            <p class="text-2xl font-bold text-green-600">$6,200.00</p>
-                        </div>
-                        <span class="text-xs px-2 py-0.5 bg-green-100 text-green-700 rounded-full font-medium">+2</span>
-                    </div>
-
-                    <!-- Total Expense -->
-                    <div class="bg-white p-6 rounded-xl shadow-lg flex justify-between items-start border-l-4 border-red-500">
-                        <div>
-                            <p class="text-sm text-gray-500 mb-1">Total Expense</p>
-                            <p class="text-2xl font-bold text-red-600">$154.81</p>
-                        </div>
-                        <span class="text-xs px-2 py-0.5 bg-red-100 text-red-700 rounded-full font-medium">4</span>
-                    </div>
-
-                    <!-- Net Balance -->
-                    <div class="bg-white p-6 rounded-xl shadow-lg flex justify-between items-start border-l-4 border-blue-500">
-                        <div>
-                            <p class="text-sm text-gray-500 mb-1">Net Balance</p>
-                            <p class="text-2xl font-bold text-blue-600">$6,045.19</p>
-                        </div>
-                        <span class="text-xs px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full font-medium">6 total</span>
-                    </div>
-                </div>
-
-                <!-- Filters Section -->
-                <div class="bg-white p-6 rounded-xl shadow-lg space-y-4">
-                    <h3 class="flex items-center text-lg font-semibold text-gray-800">
-                        <svg class="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path></svg>
-                        Filters
-                    </h3>
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
-                        <div class="col-span-1 md:col-span-2">
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Search</label>
-                            <div class="relative">
-                                <input type="text" placeholder="Search transactions..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-xl focus:ring-emerald-500 focus:border-emerald-500">
-                                <svg class="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Type</label>
-                            <select class="w-full pl-3 pr-8 py-2 border border-gray-300 rounded-xl focus:ring-emerald-500 focus:border-emerald-500 appearance-none bg-white">
-                                <option>All Types</option>
-                                <option>Income</option>
-                                <option>Expense</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
-                            <select class="w-full pl-3 pr-8 py-2 border border-gray-300 rounded-xl focus:ring-emerald-500 focus:border-emerald-500 appearance-none bg-white">
-                                <option>All Categories</option>
-                                <option>Salary</option>
-                                <option>Food</option>
-                                <option>Utilities</option>
-                            </select>
-                        </div>
-                        <button class="w-full px-4 py-2 text-gray-700 border border-gray-300 bg-gray-100 rounded-xl hover:bg-gray-200 transition duration-150">
-                            Clear Filters
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Transaction List -->
-                <div class="bg-white p-6 rounded-xl shadow-lg space-y-4">
-                    <!-- Transaction Item: Monthly Salary -->
-                    <div class="flex justify-between items-center py-3 border-b border-gray-100 last:border-b-0">
-                        <div class="flex items-center space-x-4">
-                            <div class="w-2 h-2 rounded-full bg-green-500 flex-shrink-0"></div>
-                            <div>
-                                <p class="font-medium text-gray-900">Monthly Salary</p>
-                                <div class="flex items-center text-xs text-gray-500 mt-0.5">
-                                    <span class="px-2 py-0.5 bg-green-500/10 text-green-700 rounded font-medium mr-2">Salary</span>
-                                    <span>03/12/2025</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex items-center space-x-4">
-                            <span class="text-lg font-semibold text-green-600 mr-4">+$5,000.00</span>
-                            <button class="text-gray-400 hover:text-blue-500 transition duration-150">
-                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
-                            </button>
-                            <button class="text-gray-400 hover:text-red-500 transition duration-150">
-                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Transaction Item: Coffee Shop -->
-                    <div class="flex justify-between items-center py-3 border-b border-gray-100 last:border-b-0">
-                        <div class="flex items-center space-x-4">
-                            <div class="w-2 h-2 rounded-full bg-red-500 flex-shrink-0"></div>
-                            <div>
-                                <p class="font-medium text-gray-900">Coffee Shop</p>
-                                <div class="flex items-center text-xs text-gray-500 mt-0.5">
-                                    <span class="px-2 py-0.5 bg-red-500/10 text-red-700 rounded font-medium mr-2">Food</span>
-                                    <span>04/12/2025</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex items-center space-x-4">
-                            <span class="text-lg font-semibold text-red-600 mr-4">-$4.50</span>
-                            <button class="text-gray-400 hover:text-blue-500 transition duration-150">
-                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
-                            </button>
-                            <button class="text-gray-400 hover:text-red-500 transition duration-150">
-                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Additional Transaction: Electricity Bill -->
-                    <div class="flex justify-between items-center py-3 last:border-b-0">
-                        <div class="flex items-center space-x-4">
-                            <div class="w-2 h-2 rounded-full bg-blue-500 flex-shrink-0"></div>
-                            <div>
-                                <p class="font-medium text-gray-900">Electricity Bill</p>
-                                <div class="flex items-center text-xs text-gray-500 mt-0.5">
-                                    <span class="px-2 py-0.5 bg-blue-500/10 text-blue-700 rounded font-medium mr-2">Utilities</span>
-                                    <span>04/12/2025</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex items-center space-x-4">
-                            <span class="text-lg font-semibold text-red-600 mr-4">-$98.00</span>
-                            <button class="text-gray-400 hover:text-blue-500 transition duration-150">
-                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
-                            </button>
-                            <button class="text-gray-400 hover:text-red-500 transition duration-150">
-                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+            <div class="stat-icon bg-gray-200 text-gray-700">
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                </svg>
             </div>
-        </main>
+        </div>
+    </header>
+
+<div id="overlay"></div>
+
+<main id="main-content" class="flex-1">
+    <div class="p-8 space-y-8">
+
+        <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-6 space-y-4 md:space-y-0">
+            <div>
+                <h2 class="text-3xl font-bold text-gray-900">Transactions</h2>
+                <p class="text-sm text-gray-500">View and manage all your financial transactions</p>
+            </div>
+            <div class="flex space-x-4">
+                <button id="export-csv-btn" class="px-4 py-2 text-gray-700 border border-gray-300 bg-white rounded-xl shadow-sm hover:bg-gray-50 transition duration-150">
+                    Export CSV
+                </button>
+                <button id="open-transaction-btn" class="flex items-center px-4 py-2 text-white bg-emerald-600 rounded-xl shadow-md hover:bg-emerald-700 transition duration-150">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round"
+                            stroke-linejoin="round" d="M12 4v16m-8-8h16"></path></svg>
+                    <span class="ml-1 font-medium">Add Transaction</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Transaction stats -->
+        <div id="transaction-stats" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div class="bg-white p-6 rounded-xl shadow-lg flex justify-between items-start border-l-4 border-green-500">
+                <div>
+                    <p class="text-sm text-gray-500 mb-1">Total Income</p>
+                    <p id="total-income" class="text-2xl font-bold text-green-600">$0.00</p>
+                </div>
+                <span id="income-count" class="text-xs px-2 py-0.5 bg-green-100 text-green-700 rounded-full font-medium">0</span>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-lg flex justify-between items-start border-l-4 border-red-500">
+                <div>
+                    <p class="text-sm text-gray-500 mb-1">Total Expense</p>
+                    <p id="total-expense" class="text-2xl font-bold text-red-600">$0.00</p>
+                </div>
+                <span id="expense-count" class="text-xs px-2 py-0.5 bg-red-100 text-red-700 rounded-full font-medium">0</span>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-lg flex justify-between items-start border-l-4 border-blue-500">
+                <div>
+                    <p class="text-sm text-gray-500 mb-1">Net Balance</p>
+                    <p id="net-balance" class="text-2xl font-bold text-blue-600">$0.00</p>
+                </div>
+                <span id="total-count" class="text-xs px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full font-medium">0 total</span>
+            </div>
+        </div>
+
+        <!-- Filters Section -->
+        <div class="bg-white p-6 rounded-xl shadow-lg space-y-4">
+            <h3 class="flex items-center text-lg font-semibold text-gray-800">
+                <svg class="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
+                </svg>
+                Filters
+            </h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                <div class="col-span-1 md:col-span-2">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Search</label>
+                    <div class="relative">
+                        <input type="text" id="search-input" placeholder="Search transactions..."
+                            class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-xl focus:ring-emerald-500 focus:border-emerald-500">
+                        <svg class="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24"><path
+                                stroke-linecap="round" stroke-linejoin="round"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Type</label>
+                    <select id="type-filter"
+                        class="w-full pl-3 pr-8 py-2 border border-gray-300 rounded-xl focus:ring-emerald-500 focus:border-emerald-500 appearance-none bg-white">
+                        <option>All Types</option>
+                        <option>Income</option>
+                        <option>Expense</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                    <select id="category-filter"
+                        class="w-full pl-3 pr-8 py-2 border border-gray-300 rounded-xl focus:ring-emerald-500 focus:border-emerald-500 appearance-none bg-white">
+                        <option>All Categories</option>
+                        <option>Salary</option>
+                        <option>Food</option>
+                        <option>Utilities</option>
+                        <option>Entertainment</option>
+                        <option>Groceries</option>
+                        <option>Transportation</option>
+                    </select>
+                </div>
+
+                <button id="clear-filters"
+                    class="w-full px-4 py-2 text-gray-700 border border-gray-300 bg-gray-100 rounded-xl hover:bg-gray-200 transition duration-150">
+                    Clear Filters
+                </button>
+            </div>
+        </div>
+
+        <!-- Transactions list -->
+        <div id="transactions-list" class="bg-white p-6 rounded-xl shadow-lg space-y-4"></div>
 
     </div>
+</main>
+</div>
 
-    <script src="app.js"></script>
+<!-- Add Transaction Modal -->
+<div id="transaction-modal" class="flex items-center justify-center">
+    <div class="bg-white rounded-xl shadow-lg w-96 max-w-full p-6">
+        <div class="flex justify-between items-start border-b pb-4 mb-4">
+            <div>
+                <h3 class="text-xl font-semibold text-gray-900">Add Transaction</h3>
+                <p class="text-sm text-gray-500">Record a new income or expense transaction</p>
+            </div>
+            <button id="close-transaction-x" class="text-gray-400 hover:text-gray-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+
+        <form id="transaction-form" class="space-y-4">
+            <div class="flex bg-gray-100 rounded-xl p-1">
+                <button type="button" id="expense-btn" class="flex-1 py-2 text-sm font-medium bg-white rounded-xl shadow-sm text-gray-900 border border-gray-200">Expense</button>
+                <button type="button" id="income-btn" class="flex-1 py-2 text-sm font-medium text-gray-500 hover:text-gray-900">Income</button>
+            </div>
+
+            <div>
+                <label for="amount" class="block text-sm font-medium text-gray-700">Amount *</label>
+                <input type="number" step="0.01" id="amount" placeholder="0.00" class="mt-1 block w-full py-3 px-3 border border-gray-300 rounded-xl focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
+            </div>
+
+            <div>
+                <label for="category" class="block text-sm font-medium text-gray-700">Category *</label>
+                <select id="category" class="mt-1 block w-full py-3 px-3 border border-gray-300 bg-white rounded-xl shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
+                    <option>Salary</option>
+                    <option>Food</option>
+                    <option>Utilities</option>
+                    <option>Entertainment</option>
+                    <option>Groceries</option>
+                    <option>Transportation</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="date" class="block text-sm font-medium text-gray-700">Date *</label>
+                <input type="date" id="date" value="2025-12-09" class="mt-1 block w-full py-3 px-3 border border-gray-300 rounded-xl focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
+            </div>
+
+            <div>
+                <label for="description" class="block text-sm font-medium text-gray-700">Description *</label>
+                <input type="text" id="description" placeholder="e.g., Grocery shopping, Monthly rent..." class="mt-1 block w-full py-3 px-3 border border-gray-300 rounded-xl shadow-sm focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
+            </div>
+
+            <div class="mt-6 flex justify-end space-x-3 border-t pt-4">
+                <button type="button" id="close-transaction-cancel" class="px-6 py-3 text-gray-700 bg-white border border-gray-300 rounded-xl shadow-sm hover:bg-gray-50 transition duration-150 font-medium">Cancel</button>
+                <button type="submit" class="px-6 py-3 text-white bg-emerald-600 rounded-xl shadow-md hover:bg-emerald-700 transition duration-150 font-medium">Add Transaction</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Edit Transaction Modal -->
+<div id="edit-modal" class="flex items-center justify-center">
+    <div class="bg-white rounded-xl shadow-lg w-96 max-w-full p-6">
+        <div class="flex justify-between items-start border-b pb-4 mb-4">
+            <h3 class="text-xl font-semibold text-gray-900">Edit Transaction</h3>
+            <button id="close-edit-x" class="text-gray-400 hover:text-gray-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+
+        <form id="edit-form" class="space-y-4">
+            <div>
+                <label for="edit-description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                <input type="text" id="edit-description" class="w-full py-3 px-3 border-2 border-emerald-500 rounded-xl focus:ring-emerald-500 focus:border-emerald-500">
+            </div>
+
+            <div>
+                <label for="edit-amount" class="block text-sm font-medium text-gray-700 mb-1">Amount</label>
+                <input type="number" step="0.01" id="edit-amount" class="w-full py-3 px-3 border border-gray-300 rounded-xl focus:ring-emerald-500 focus:border-emerald-500">
+            </div>
+
+            <div>
+                <label for="edit-category" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                <input type="text" id="edit-category" class="w-full py-3 px-3 border border-gray-300 rounded-xl focus:ring-emerald-500 focus:border-emerald-500">
+            </div>
+
+            <div>
+                <label for="edit-type" class="block text-sm font-medium text-gray-700 mb-1">Type</label>
+                <select id="edit-type" class="w-full py-3 px-3 border border-gray-300 bg-white rounded-xl focus:ring-emerald-500 focus:border-emerald-500">
+                    <option>Expense</option>
+                    <option>Income</option>
+                </select>
+            </div>
+
+            <div class="mt-6 flex justify-end space-x-3 border-t pt-4">
+                <button type="button" id="cancel-edit" class="px-6 py-3 text-gray-700 bg-white border border-gray-300 rounded-xl shadow-sm hover:bg-gray-50 transition duration-150 font-medium">Cancel</button>
+                <button type="submit" class="px-6 py-3 text-white bg-emerald-600 rounded-xl shadow-md hover:bg-emerald-700 transition duration-150 font-medium">Update Transaction</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div id="delete-modal" class="flex items-center justify-center">
+    <div class="bg-white rounded-xl shadow-lg w-96 max-w-full p-6">
+        <div class="flex justify-between items-start mb-4">
+            <h3 class="text-xl font-semibold text-gray-900">Delete Transaction?</h3>
+            <button id="close-delete-x" class="text-gray-400 hover:text-gray-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+
+        <p class="text-gray-600 mb-6">Are you sure you want to delete? This action cannot be undone.</p>
+
+        <div class="flex justify-end space-x-3">
+            <button id="cancel-delete" class="px-6 py-3 text-gray-700 bg-white border border-gray-300 rounded-xl shadow-sm hover:bg-gray-50 transition duration-150 font-medium">Cancel</button>
+            <button id="confirm-delete" class="px-6 py-3 text-white bg-red-600 rounded-xl shadow-md hover:bg-red-700 transition duration-150 font-medium">Delete</button>
+        </div>
+    </div>
+</div>
+
+<script src="transactions.js"></script>
+
 </body>
 </html>

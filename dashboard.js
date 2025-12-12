@@ -1,131 +1,134 @@
-// Function to draw the simple curved line graph for the Dashboard
-const drawLineChart = (canvasId, data, lineColor = '#10b981') => {
-    const canvas = document.getElementById(canvasId);
-    if (!canvas) return;
+// ---------- Helper Functions ---------- //
 
-    const ctx = canvas.getContext('2d');
-    
-    // Set canvas drawing dimensions based on computed style
-    const parentWidth = canvas.parentElement.clientWidth;
-    canvas.width = Math.min(parentWidth - 16, 1000); 
-    canvas.height = 320; 
-
-    const width = canvas.width;
-    const height = canvas.height;
-    
-    ctx.clearRect(0, 0, width, height);
-
-    const normalizedData = data;
-    const points = normalizedData.length;
-    
-    const labelColor = '#d1d5db'; 
-    const textColor = '#9ca3af'; 
-    const yLabels = ['$10,000', '$7,500', '$5,000', '$2,500', '$0'];
-    
-    const xMarginLeft = 60;
-    const xMarginRight = 20;
-    const yMarginTop = 20;
-    const yMarginBottom = 40;
-    
-    const plotWidth = width - xMarginLeft - xMarginRight;
-    const plotHeight = height - yMarginTop - yMarginBottom;
-
-    // Draw Y-Axis Labels & Dashed Lines
-    ctx.font = '12px Inter';
-    ctx.fillStyle = textColor;
-    ctx.textAlign = 'right';
-
-    yLabels.forEach((label, index) => {
-        const y = yMarginTop + (index / (yLabels.length - 1)) * plotHeight;
-        // Draw dashed line
-        ctx.beginPath();
-        ctx.strokeStyle = labelColor;
-        ctx.setLineDash([4, 4]);
-        ctx.moveTo(xMarginLeft, y);
-        ctx.lineTo(width - xMarginRight, y);
-        ctx.stroke();
-        
-        // Draw text label
-        ctx.setLineDash([]); 
-        ctx.fillText(label, xMarginLeft - 10, y + 4);
-    });
-
-    // Draw X-Axis Labels (months)
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'];
-    ctx.textAlign = 'center';
-    ctx.fillStyle = '#4b5563';
-    
-    months.forEach((month, index) => {
-        if (index < points) {
-            const x = xMarginLeft + (index / (points - 1)) * plotWidth;
-            ctx.fillText(month, x, height - 15);
-        }
-    });
-
-    // Draw The Line Curve
-    ctx.beginPath();
-    ctx.strokeStyle = lineColor; 
-    ctx.lineWidth = 3;
-    ctx.setLineDash([]); 
-
-    ctx.moveTo(xMarginLeft, yMarginTop + plotHeight * (1 - normalizedData[0]));
-
-    for (let i = 1; i < points; i++) {
-        const x1 = xMarginLeft + ((i - 1) / (points - 1)) * plotWidth;
-        const y1 = yMarginTop + plotHeight * (1 - normalizedData[i - 1]);
-        const x2 = xMarginLeft + (i / (points - 1)) * plotWidth;
-        const y2 = yMarginTop + plotHeight * (1 - normalizedData[i]);
-        
-        // Use Bezier curve for smooth line
-        const cp1x = x1 + (x2 - x1) / 3;
-        const cp1y = y1;
-        const cp2x = x2 - (x2 - x1) / 3;
-        const cp2y = y2;
-
-        ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x2, y2);
-    }
-
-    ctx.stroke();
-
-    // Draw gradient fill under the line
-    const gradient = ctx.createLinearGradient(0, yMarginTop, 0, height - yMarginBottom);
-    gradient.addColorStop(0, 'rgba(16, 185, 129, 0.2)'); // emerald with opacity
-    gradient.addColorStop(1, 'rgba(16, 185, 129, 0)');   // transparent
-
-    ctx.beginPath();
-    ctx.moveTo(xMarginLeft, yMarginTop + plotHeight * (1 - normalizedData[0]));
-    
-    for (let i = 1; i < points; i++) {
-        const x1 = xMarginLeft + ((i - 1) / (points - 1)) * plotWidth;
-        const y1 = yMarginTop + plotHeight * (1 - normalizedData[i - 1]);
-        const x2 = xMarginLeft + (i / (points - 1)) * plotWidth;
-        const y2 = yMarginTop + plotHeight * (1 - normalizedData[i]);
-        
-        const cp1x = x1 + (x2 - x1) / 3;
-        const cp1y = y1;
-        const cp2x = x2 - (x2 - x1) / 3;
-        const cp2y = y2;
-
-        ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x2, y2);
-    }
-    
-    // Close the path to the bottom
-    ctx.lineTo(xMarginLeft + plotWidth, height - yMarginBottom);
-    ctx.lineTo(xMarginLeft, height - yMarginBottom);
-    ctx.closePath();
-    
-    ctx.fillStyle = gradient;
-    ctx.fill();
+// Format number as currency
+const formatCurrency = (num) => {
+    return `$${num.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 };
 
-// Initialize dashboard
+// Get current user email
+const getCurrentUserEmail = () => {
+    return localStorage.getItem('currentUserEmail') || '';
+};
+
+// Get current user data
+const getCurrentUser = () => {
+    const email = getCurrentUserEmail();
+    if (!email) return null;
+    const usersData = JSON.parse(localStorage.getItem('users') || '{}');
+    // Assuming 'usersData' is an object where keys are emails and values are user objects.
+    return usersData[email] || null;
+};
+
+// Get transactions from localStorage for the current user
+const getTransactions = () => {
+    const user = getCurrentUser();
+    // Transactions should be stored in the user object
+    if (!user) return [];
+    return user.transactions || [];
+};
+
+/**
+ * NEW: Get categories from localStorage for the current user.
+ * Categories are assumed to be stored as an array of objects:
+ * [{ name: 'Salary', color: 'blue' }, { name: 'Food', color: 'red' }, ...]
+ */
+const getCategories = () => {
+    const user = getCurrentUser();
+    if (!user) return [];
+    // Assuming categories are stored in the user object
+    // --- TEMPORARY HARDCODED CATEGORIES REMOVED ---
+    return user.categories || [];
+};
+
+/**
+ * NEW: Get the color for a specific category name.
+ */
+const getCategoryColor = (tagName) => {
+    const categories = getCategories();
+    const category = categories.find(c => c.name.toLowerCase() === tagName.toLowerCase());
+    // Fallback to a default color if category or color is not found
+    return category ? category.color : 'gray'; 
+};
+
+
+// Calculate stats: balance, income, expense (No change needed here)
+const calculateStats = (transactions) => {
+    const income = transactions
+        .filter(t => t.amount > 0)
+        .reduce((sum, t) => sum + t.amount, 0);
+    const expense = transactions
+        .filter(t => t.amount < 0)
+        .reduce((sum, t) => sum + Math.abs(t.amount), 0);
+    const balance = income - expense;
+    return { income, expense, balance };
+};
+
+// --- REMOVED: getBalanceTrend function and all its hardcoded logic ---
+
+
+// Render recent transactions dynamically (Updated to use getCategoryColor)
+const renderTransactions = (transactions) => {
+    const container = document.getElementById('recent-transactions-container');
+    if (!container) return;
+    container.innerHTML = '';
+
+    // Sort by date descending, take last 5
+    const recent = [...transactions].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5);
+
+    recent.forEach(t => {
+        const color = t.amount >= 0 ? 'green' : 'red';
+        const tagColor = getCategoryColor(t.tag); 
+        const div = document.createElement('div');
+        div.className = 'flex justify-between items-center py-3 border-b border-gray-100';
+        div.innerHTML = `
+            <div class="flex items-center space-x-4">
+                <div class="w-2 h-2 rounded-full bg-${color}-500"></div>
+                <div>
+                    <p class="font-medium text-gray-900">${t.title}</p>
+                    <div class="flex items-center text-xs text-gray-500 mt-0.5">
+                        <span class="px-2 py-0.5 bg-${tagColor}-500/10 text-${tagColor}-700 rounded font-medium mr-2">${t.tag}</span>
+                        <span>${t.date}</span>
+                    </div>
+                </div>
+            </div>
+            <span class="text-lg font-semibold text-${color}-600">${t.amount >= 0 ? '+' : '-'}${Math.abs(t.amount).toFixed(2)}</span>
+        `;
+        container.appendChild(div);
+    });
+};
+
+// --- REMOVED: getMonthLabel function ---
+
+// --- REMOVED: drawLineChart function and all its hardcoded logic/placeholders ---
+
+
+// ---------- Initialize Dashboard ---------- //
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Sample data representing balance over 10 months (normalized between 0 and 1)
-    const data = [0.4, 0.5, 0.45, 0.2, 0.8, 0.65, 0.3, 0.55, 0.7, 0.85];
+    // Display user info in header
+    const user = getCurrentUser();
+    if (user) {
+        const nameElem = document.getElementById('header-name');
+        const emailElem = document.getElementById('header-email');
+        if (nameElem) nameElem.textContent = user.name || 'User';
+        if (emailElem) emailElem.textContent = getCurrentUserEmail();
+    }
     
-    const drawChart = () => drawLineChart('balance-chart', data);
-    drawChart();
-    
-    // Redraw chart on window resize for responsiveness
-    window.addEventListener('resize', drawChart);
+    const transactions = getTransactions();
+
+    // Update stat cards
+    const stats = calculateStats(transactions);
+    const totalElem = document.querySelector('.stat-card-total .stat-value');
+    const incomeElem = document.querySelector('.stat-card-income .stat-value');
+    const expenseElem = document.querySelector('.stat-card-expense .stat-value');
+    if(totalElem) totalElem.textContent = formatCurrency(stats.balance);
+    if(incomeElem) incomeElem.textContent = formatCurrency(stats.income);
+    if(expenseElem) expenseElem.textContent = formatCurrency(stats.expense);
+
+    // Render recent transactions
+    renderTransactions(transactions);
+
+    // --- REMOVED: Chart drawing initialization ---
+    // The chart element in HTML should also be removed if it's no longer used.
+    // E.g., The element with id 'balance-chart'
 });

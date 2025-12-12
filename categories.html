@@ -1,27 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Categories - Finance Tracker</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Categories - Finance Tracker</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet" />
 <style>
-    .mui {
-        font-family: "Material Symbols Sharp";
-        font-weight: normal;
-        font-style: normal;
-        font-size: 22px;
-        line-height: 1;
-        display: inline-block;
-    }
+/* Custom style for Material Symbols Sharp to match existing code */
+.mui {
+    font-family: "Material Symbols Sharp";
+    font-weight: normal;
+    font-style: normal;
+    font-size: 22px;
+    line-height: 1;
+    display: inline-block;
+}
+/* Style for active nav link */
+.nav-link[href*="categories.html"] { /* Adjust selector based on the current page */
+    background-color: rgb(16 185 129 / 0.1); /* emerald-400/10 */
+    color: rgb(4 120 87); /* emerald-700 */
+    font-weight: 600;
+}
+.nav-link:not([href*="categories.html"]):hover {
+    background-color: rgb(243 244 246); /* hover:bg-gray-100 */
+}
 </style>
-
 </head>
 <body class="flex h-screen overflow-hidden">
-
-    <!-- Sidebar -->
+<!-- Sidebar -->
 <aside id="sidebar" class="w-64 flex flex-col justify-between bg-white border-r border-gray-200 p-6 shadow-xl shadow-gray-50/50">
     <div>
         <div class="mb-10">
@@ -36,17 +44,17 @@
             </a>
 
             <a href="transactions.html" class="nav-link nav-item flex items-center p-3 rounded-xl">
-                <span class="mui mr-3">receipt_long</span>
+                <span class="mui mr-3">near_me</span>
                 Transactions
             </a>
 
             <a href="categories.html" class="nav-link nav-item flex items-center p-3 rounded-xl">
-                <span class="mui mr-3">category</span>
+                <span class="mui mr-3">local_offer</span>
                 Categories
             </a>
 
             <a href="analytics.html" class="nav-link nav-item flex items-center p-3 rounded-xl">
-                <span class="mui mr-3">analytics</span>
+                <span class="mui mr-3">bar_chart</span>
                 Analytics
             </a>
 
@@ -66,166 +74,233 @@
 </aside>
 
 
+<div class="flex-1 flex flex-col overflow-y-auto">
 
+     <!-- Header -->
+    <header id="header" class="flex justify-end items-center bg-white p-6 border-b border-gray-200">
 
-    <!-- Main Content Area -->
-    <div class="flex-1 flex flex-col overflow-y-auto">
-        
-        <!-- Header -->
-        <header id="header" class="flex justify-end items-center bg-white p-6 border-b border-gray-200">
-            <div class="flex items-center space-x-4">
-                <div class="text-right">
-                    <p class="text-sm font-medium text-gray-900">John Doe</p>
-                    <p class="text-xs text-gray-500">john@example.com</p>
+    <!-- Mobile Menu Button -->
+<button id="menu-btn" class="lg:hidden flex items-center mr-auto">
+    <span id="menu-icon" class="mui text-3xl">menu</span>
+    <span id="close-icon" class="mui text-3xl hidden">close</span>
+</button>
+
+        <div class="flex items-center space-x-4">
+            <div class="text-right">
+                <p class="text-sm font-medium text-gray-900">John Doe</p>
+                <p class="text-xs text-gray-500">john@example.com</p>
+            </div>
+            <div class="stat-icon bg-gray-200 text-gray-700">
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                </svg>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content" class="flex-1">
+        <div class="p-4 md:p-8 space-y-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                <div>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-900">Categories</h2>
+                    <p class="text-sm text-gray-500">Manage your transaction categories</p>
                 </div>
-                <div class="stat-icon bg-gray-200 text-gray-700">
-                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                <button class="flex items-center px-4 py-2 text-white bg-emerald-600 rounded-xl shadow-md hover:bg-emerald-700 transition duration-150">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m-8-8h16"></path>
+                    </svg>
+                    <span class="ml-1 font-medium">Add Category</span>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-lg space-y-6">
+                    <h3 class="flex items-center text-lg font-semibold text-gray-800">
+                        <svg class="w-6 h-6 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0zM21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        Income Categories (2)
+                    </h3>
+                    <div class="flex justify-between items-center py-3 border-b border-gray-100 last:border-b-0">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-3 h-3 rounded-full bg-green-600"></div>
+                            <p class="font-medium text-gray-900">Salary</p>
+                            <span class="px-2 py-0.5 text-xs bg-green-500/10 text-green-700 rounded font-medium">Income</span>
+                        </div>
+                        <div class="flex space-x-3">
+                            <button class="text-gray-400 hover:text-blue-500 transition duration-150">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+                                </svg>
+                            </button>
+                            <button class="text-gray-400 hover:text-red-500 transition duration-150">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center py-3 last:border-b-0">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-3 h-3 rounded-full bg-blue-600"></div>
+                            <p class="font-medium text-gray-900">Freelance</p>
+                            <span class="px-2 py-0.5 text-xs bg-green-500/10 text-green-700 rounded font-medium">Income</span>
+                        </div>
+                        <div class="flex space-x-3">
+                            <button class="text-gray-400 hover:text-blue-500 transition duration-150">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+                                </svg>
+                            </button>
+                            <button class="text-gray-400 hover:text-red-500 transition duration-150">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-lg space-y-6">
+                    <h3 class="flex items-center text-lg font-semibold text-gray-800">
+                        <svg class="w-6 h-6 mr-2 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0zM21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        Expense Categories (4)
+                    </h3>
+                    <div class="flex justify-between items-center py-3 border-b border-gray-100 last:border-b-0">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-3 h-3 rounded-full bg-red-600"></div>
+                            <p class="font-medium text-gray-900">Food</p>
+                            <span class="px-2 py-0.5 text-xs bg-red-500/10 text-red-700 rounded font-medium">Expense</span>
+                        </div>
+                        <div class="flex space-x-3">
+                            <button class="text-gray-400 hover:text-blue-500 transition duration-150">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+                                </svg>
+                            </button>
+                            <button class="text-gray-400 hover:text-red-500 transition duration-150">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center py-3 border-b border-gray-100 last:border-b-0">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-3 h-3 rounded-full bg-yellow-600"></div>
+                            <p class="font-medium text-gray-900">Entertainment</p>
+                            <span class="px-2 py-0.5 text-xs bg-red-500/10 text-red-700 rounded font-medium">Expense</span>
+                        </div>
+                        <div class="flex space-x-3">
+                            <button class="text-gray-400 hover:text-blue-500 transition duration-150">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+                                </svg>
+                            </button>
+                            <button class="text-gray-400 hover:text-red-500 transition duration-150">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center py-3 border-b border-gray-100 last:border-b-0">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-3 h-3 rounded-full bg-indigo-600"></div>
+                            <p class="font-medium text-gray-900">Transportation</p>
+                            <span class="px-2 py-0.5 text-xs bg-red-500/10 text-red-700 rounded font-medium">Expense</span>
+                        </div>
+                        <div class="flex space-x-3">
+                            <button class="text-gray-400 hover:text-blue-500 transition duration-150">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+                                </svg>
+                            </button>
+                            <button class="text-gray-400 hover:text-red-500 transition duration-150">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center py-3 last:border-b-0">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-3 h-3 rounded-full bg-cyan-600"></div>
+                            <p class="font-medium text-gray-900">Utilities</p>
+                            <span class="px-2 py-0.5 text-xs bg-red-500/10 text-red-700 rounded font-medium">Expense</span>
+                        </div>
+                        <div class="flex space-x-3">
+                            <button class="text-gray-400 hover:text-blue-500 transition duration-150">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+                                </svg>
+                            </button>
+                            <button class="text-gray-400 hover:text-red-500 transition duration-150">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </header>
+        </div>
+    </main>
+</div>
 
-        <!-- Main Content -->
-        <main id="main-content" class="flex-1">
-            <div class="p-8 space-y-8">
-                <!-- Header and Button -->
-                <div class="flex justify-between items-center mb-6">
-                    <div>
-                        <h2 class="text-3xl font-bold text-gray-900">Categories</h2>
-                        <p class="text-sm text-gray-500">Manage your transaction categories</p>
-                    </div>
-                    <button class="flex items-center px-4 py-2 text-white bg-emerald-600 rounded-xl shadow-md hover:bg-emerald-700 transition duration-150">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m-8-8h16"></path></svg>
-                        <span class="ml-1 font-medium">Add Category</span>
-                    </button>
-                </div>
+<script>
+// Hamburger toggle logic
+const menuBtn = document.getElementById('menu-btn');
+const sidebar = document.getElementById('sidebar');
+const backdrop = document.getElementById('backdrop');
+const menuIcon = document.getElementById('menu-icon');
+const closeIcon = document.getElementById('close-icon');
 
-                <!-- Category Columns -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+function toggleSidebar() {
+    // Toggle the sidebar's mobile visibility
+    sidebar.classList.toggle('-translate-x-full');
+    
+    // Toggle the backdrop's visibility (on mobile only)
+    backdrop.classList.toggle('hidden');
 
-                    <!-- Income Categories -->
-                    <div class="bg-white p-6 rounded-xl shadow-lg space-y-6">
-                        <h3 class="flex items-center text-lg font-semibold text-gray-800">
-                            <svg class="w-6 h-6 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0zM21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            Income Categories (2)
-                            
-                        </h3>
+    // Toggle the menu/close icons
+    menuIcon.classList.toggle('hidden');
+    closeIcon.classList.toggle('hidden');
+    
+    // Prevent scrolling on the body when the sidebar is open on mobile
+    if (!sidebar.classList.contains('-translate-x-full')) {
+        document.body.classList.add('overflow-hidden');
+    } else {
+        document.body.classList.remove('overflow-hidden');
+    }
+}
 
-                        <!-- Category Item: Salary -->
-                        <div class="flex justify-between items-center py-3 border-b border-gray-100 last:border-b-0">
-                            <div class="flex items-center space-x-3">
-                                <div class="w-3 h-3 rounded-full bg-green-600"></div>
-                                <p class="font-medium text-gray-900">Salary</p>
-                                <span class="px-2 py-0.5 text-xs bg-green-500/10 text-green-700 rounded font-medium">Income</span>
-                            </div>
-                            <div class="flex space-x-3">
-                                <button class="text-gray-400 hover:text-blue-500 transition duration-150">
-                                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
-                                </button>
-                                <button class="text-gray-400 hover:text-red-500 transition duration-150">
-                                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                                </button>
-                            </div>
-                        </div>
+menuBtn.addEventListener('click', toggleSidebar);
+backdrop.addEventListener('click', toggleSidebar); // Close sidebar when clicking the backdrop
 
-                        <!-- Category Item: Freelance -->
-                        <div class="flex justify-between items-center py-3 last:border-b-0">
-                            <div class="flex items-center space-x-3">
-                                <div class="w-3 h-3 rounded-full bg-blue-600"></div>
-                                <p class="font-medium text-gray-900">Freelance</p>
-                                <span class="px-2 py-0.5 text-xs bg-green-500/10 text-green-700 rounded font-medium">Income</span>
-                            </div>
-                            <div class="flex space-x-3">
-                                <button class="text-gray-400 hover:text-blue-500 transition duration-150">
-                                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
-                                </button>
-                                <button class="text-gray-400 hover:text-red-500 transition duration-150">
-                                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+// Optional: Auto-close sidebar on window resize if it transitions to desktop view
+window.addEventListener('resize', () => {
+    if (window.innerWidth >= 1024) { // 1024px is the 'lg' breakpoint in Tailwind
+        if (sidebar.classList.contains('-translate-x-full')) {
+            // Ensure classes are correct if resized from mobile while closed
+            backdrop.classList.add('hidden');
+            menuIcon.classList.remove('hidden');
+            closeIcon.classList.add('hidden');
+        } else {
+             // Ensure classes are correct if resized from mobile while open
+            document.body.classList.remove('overflow-hidden');
+            backdrop.classList.add('hidden');
+            menuIcon.classList.remove('hidden');
+            closeIcon.classList.add('hidden');
+        }
+    }
+});
+</script>
 
-                    <!-- Expense Categories -->
-                    <div class="bg-white p-6 rounded-xl shadow-lg space-y-6">
-                        <h3 class="flex items-center text-lg font-semibold text-gray-800">
-                            <svg class="w-6 h-6 mr-2 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0zM21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            Expense Categories (4)
-                        </h3>
-
-                        <!-- Category Item: Food -->
-                        <div class="flex justify-between items-center py-3 border-b border-gray-100 last:border-b-0">
-                            <div class="flex items-center space-x-3">
-                                <div class="w-3 h-3 rounded-full bg-red-600"></div>
-                                <p class="font-medium text-gray-900">Food</p>
-                                <span class="px-2 py-0.5 text-xs bg-red-500/10 text-red-700 rounded font-medium">Expense</span>
-                            </div>
-                            <div class="flex space-x-3">
-                                <button class="text-gray-400 hover:text-blue-500 transition duration-150">
-                                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
-                                </button>
-                                <button class="text-gray-400 hover:text-red-500 transition duration-150">
-                                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Category Item: Entertainment -->
-                        <div class="flex justify-between items-center py-3 border-b border-gray-100 last:border-b-0">
-                            <div class="flex items-center space-x-3">
-                                <div class="w-3 h-3 rounded-full bg-purple-600"></div>
-                                <p class="font-medium text-gray-900">Entertainment</p>
-                                <span class="px-2 py-0.5 text-xs bg-red-500/10 text-red-700 rounded font-medium">Expense</span>
-                            </div>
-                            <div class="flex space-x-3">
-                                <button class="text-gray-400 hover:text-blue-500 transition duration-150">
-                                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
-                                </button>
-                                <button class="text-gray-400 hover:text-red-500 transition duration-150">
-                                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <!-- Category Item: Transportation -->
-                        <div class="flex justify-between items-center py-3 border-b border-gray-100 last:border-b-0">
-                            <div class="flex items-center space-x-3">
-                                <div class="w-3 h-3 rounded-full bg-yellow-600"></div>
-                                <p class="font-medium text-gray-900">Transportation</p>
-                                <span class="px-2 py-0.5 text-xs bg-red-500/10 text-red-700 rounded font-medium">Expense</span>
-                            </div>
-                            <div class="flex space-x-3">
-                                <button class="text-gray-400 hover:text-blue-500 transition duration-150">
-                                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
-                                </button>
-                                <button class="text-gray-400 hover:text-red-500 transition duration-150">
-                                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <!-- Category Item: Utilities -->
-                        <div class="flex justify-between items-center py-3 last:border-b-0">
-                            <div class="flex items-center space-x-3">
-                                <div class="w-3 h-3 rounded-full bg-blue-600"></div>
-                                <p class="font-medium text-gray-900">Utilities</p>
-                                <span class="px-2 py-0.5 text-xs bg-red-500/10 text-red-700 rounded font-medium">Expense</span>
-                            </div>
-                            <div class="flex space-x-3">
-                                <button class="text-gray-400 hover:text-blue-500 transition duration-150">
-                                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
-                                </button>
-                                <button class="text-gray-400 hover:text-red-500 transition duration-150">
-                                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-
-    </div>
-
-    <script src="app.js"></script>
 </body>
 </html>
